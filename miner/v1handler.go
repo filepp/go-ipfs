@@ -22,8 +22,8 @@ func NewV1Handler(api coreiface.CoreAPI, publisher MessagePublisher) *V1Handler 
 		handlerFunc: make(map[string]HandleFunc),
 		publisher:   publisher,
 	}
-	h.handlerFunc[proto.MsgAddFile] = h.HandleFetchFile
-	h.handlerFunc[proto.MsgFileState] = h.HandleFileState
+	h.handlerFunc[proto.MsgFetchFile] = h.HandleFetchFile
+	h.handlerFunc[proto.MsgFileStat] = h.HandleFileStat
 	return h
 }
 
@@ -70,7 +70,7 @@ func (h *V1Handler) HandleFetchFile(ctx context.Context, receivedFrom peer.ID, m
 	return nil
 }
 
-func (h *V1Handler) HandleFileState(ctx context.Context, receivedFrom peer.ID, msg *proto.Message) error {
+func (h *V1Handler) HandleFileStat(ctx context.Context, receivedFrom peer.ID, msg *proto.Message) error {
 	//TODO:
 	return nil
 }

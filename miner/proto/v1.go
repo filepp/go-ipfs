@@ -8,10 +8,10 @@ import (
 
 const (
 	V1                 = "v1"
-	MsgAddFile         = "FetchFile"
+	MsgFetchFile       = "FetchFile"
 	MsgAddFileResponse = "FetchFileResp"
 
-	MsgFileState         = "FileState"
+	MsgFileStat          = "FileStat"
 	MsgFileStateResponse = "FileStateResp"
 )
 
@@ -29,12 +29,12 @@ type (
 	QueryFileState struct {
 		Cids []cid.Cid
 	}
-	CidState struct {
+	CidStat struct {
 		Cid   cid.Cid
 		Exist bool
 	}
 	QueryFileStateResp struct {
-		Cids []CidState
+		Cids []CidStat
 	}
 )
 
@@ -43,7 +43,7 @@ func init() {
 	gob.Register(FetchFile{})
 	gob.Register(FetchFileResp{})
 	gob.Register(QueryFileState{})
-	gob.Register(CidState{})
+	gob.Register(CidStat{})
 	gob.Register(QueryFileStateResp{})
 }
 
