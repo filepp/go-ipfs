@@ -7,12 +7,12 @@ import (
 )
 
 const (
-	V1                 = "v1"
-	MsgFetchFile       = "FetchFile"
-	MsgAddFileResponse = "FetchFileResp"
+	V1                   = "v1"
+	MsgFetchFile         = "FetchFile"
+	MsgFetchFileResponse = "FetchFileResp"
 
-	MsgFileStat          = "FileStat"
-	MsgFileStateResponse = "FileStateResp"
+	MsgFileStat         = "FileStat"
+	MsgFileStatResponse = "FileStatResp"
 )
 
 type (

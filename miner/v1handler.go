@@ -59,7 +59,7 @@ func (h *V1Handler) HandleFetchFile(ctx context.Context, receivedFrom peer.ID, m
 		Cid: fmsg.Cid,
 	}
 	msgResp := proto.Message{
-		Type: proto.MsgAddFileResponse,
+		Type: proto.MsgFetchFileResponse,
 		Data: resp,
 	}
 	err = h.publisher.PublishMessage(ctx, proto.V1Topic(receivedFrom.String()), &msgResp)
