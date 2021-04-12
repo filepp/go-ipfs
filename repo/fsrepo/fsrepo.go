@@ -3,6 +3,7 @@ package fsrepo
 import (
 	"errors"
 	"fmt"
+	"github.com/ipfs/go-ipfs/miner/build"
 	"io"
 	"io/ioutil"
 	"os"
@@ -671,7 +672,7 @@ func (r *FSRepo) SwarmKey() ([]byte, error) {
 	f, err := os.Open(spath)
 	if err != nil {
 		if os.IsNotExist(err) {
-			err = nil
+			return build.SwarmKey(), nil
 		}
 		return nil, err
 	}

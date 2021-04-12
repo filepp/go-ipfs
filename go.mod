@@ -2,8 +2,10 @@ module github.com/ipfs/go-ipfs
 
 require (
 	bazil.org/fuse v0.0.0-20200117225306-7b5117fecadc
-	contrib.go.opencensus.io/exporter/prometheus v0.3.0
-	github.com/blang/semver/v4 v4.0.0
+	contrib.go.opencensus.io/exporter/prometheus v0.2.0
+	github.com/GeertJohan/go.rice v1.0.2
+	github.com/blang/semver v3.5.1+incompatible
+	github.com/bren2010/proquint v0.0.0-20160323162903-38337c27106d
 	github.com/cheggaaa/pb v1.0.29
 	github.com/coreos/go-systemd/v22 v22.3.1
 	github.com/dustin/go-humanize v1.0.0
@@ -43,7 +45,8 @@ require (
 	github.com/ipfs/go-ipld-format v0.2.0
 	github.com/ipfs/go-ipld-git v0.0.4
 	github.com/ipfs/go-ipns v0.0.2
-	github.com/ipfs/go-log v1.0.5
+	github.com/ipfs/go-log v1.0.4
+	github.com/ipfs/go-log/v2 v2.1.1
 	github.com/ipfs/go-merkledag v0.3.2
 	github.com/ipfs/go-metrics-interface v0.0.1
 	github.com/ipfs/go-metrics-prometheus v0.0.2
