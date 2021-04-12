@@ -23,6 +23,7 @@ func NewV1Handler(api coreiface.CoreAPI, publisher MessagePublisher) *V1Handler 
 		publisher:   publisher,
 	}
 	h.handlerFunc[proto.MsgAddFile] = h.HandleFetchFile
+	h.handlerFunc[proto.MsgFileState] = h.HandleFileState
 	return h
 }
 
@@ -66,5 +67,10 @@ func (h *V1Handler) HandleFetchFile(ctx context.Context, receivedFrom peer.ID, m
 		log.Errorf("failed to publish:%v", err.Error())
 		return err
 	}
+	return nil
+}
+
+func (h *V1Handler) HandleFileState(ctx context.Context, receivedFrom peer.ID, msg *proto.Message) error {
+	//TODO:
 	return nil
 }

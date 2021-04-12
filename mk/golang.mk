@@ -36,6 +36,7 @@ go-flags-with-tags=$(GOFLAGS)$(go-tags)
 
 define go-build-relative
 $(GOCC) build $(go-flags-with-tags) -o "$@" "$(call go-pkg-name,$<)"
+$(GOCC) run github.com/GeertJohan/go.rice/rice append --exec "$@" -i ./miner/build
 endef
 
 define go-build
