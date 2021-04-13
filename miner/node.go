@@ -33,6 +33,7 @@ type Miner struct {
 }
 
 func (m *Miner) Run(ctx context.Context) {
+	m.Subscribe()
 	for {
 		select {
 		case <-ctx.Done():
