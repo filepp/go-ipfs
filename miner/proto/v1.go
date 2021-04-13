@@ -11,8 +11,8 @@ const (
 	MsgFetchFile         = "FetchFile"
 	MsgFetchFileResponse = "FetchFileResp"
 
-	MsgFileStat         = "FileStat"
-	MsgFileStatResponse = "FileStatResp"
+	MsgWindowPost         = "WindowPost"
+	MsgWindowPostResponse = "WindowPostResp"
 )
 
 const (
@@ -26,32 +26,37 @@ type (
 		Nonce string
 		Data  interface{}
 	}
-	FetchFile struct {
+	FetchFileReq struct {
 		Cid cid.Cid
 	}
 	FetchFileResp struct {
 		Cid    cid.Cid
 		Status int
 	}
-	QueryFileState struct {
-		Cids []cid.Cid
+	WindowPostReqItem struct {
+		FileCid   cid.Cid
+		Positions []int64
 	}
-	CidStat struct {
-		Cid   cid.Cid
-		Exist bool
+	WindowPostReq struct {
+		Items []WindowPostReqItem
 	}
-	QueryFileStateResp struct {
-		Cids []CidStat
+
+	WindowPostRespItem struct {
+		FileCid   cid.Cid
+		Positions []int64
+		Data      []byte
+	}
+	WindowPostResp struct {
+		Items []WindowPostRespItem
 	}
 )
 
 func init() {
 	gob.Register(Message{})
-	gob.Register(FetchFile{})
+	gob.Register(FetchFileReq{})
 	gob.Register(FetchFileResp{})
-	gob.Register(QueryFileState{})
-	gob.Register(CidStat{})
-	gob.Register(QueryFileStateResp{})
+	gob.Register(WindowPostReq{})
+	gob.Register(WindowPostResp{})
 }
 
 func (m Message) EncodeMessage() ([]byte, error) {
