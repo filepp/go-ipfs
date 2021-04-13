@@ -15,16 +15,23 @@ const (
 	MsgFileStatResponse = "FileStatResp"
 )
 
+const (
+	StatusOK             = 0
+	StatusFetchFileError = 1
+)
+
 type (
 	Message struct {
-		Type string
-		Data interface{}
+		Type  string
+		Nonce uint64
+		Data  interface{}
 	}
 	FetchFile struct {
 		Cid cid.Cid
 	}
 	FetchFileResp struct {
-		Cid cid.Cid
+		Cid    cid.Cid
+		Status int
 	}
 	QueryFileState struct {
 		Cids []cid.Cid

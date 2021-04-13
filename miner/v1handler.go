@@ -37,6 +37,29 @@ func (h *V1Handler) Handle(ctx context.Context, receivedFrom peer.ID, msg *proto
 
 func (h *V1Handler) HandleFetchFile(ctx context.Context, receivedFrom peer.ID, msg *proto.Message) error {
 	fmsg, _ := msg.Data.(proto.FetchFile)
+	resp := proto.FetchFileResp{
+		Cid:    fmsg.Cid,
+		Status: proto.StatusOK,
+	}
+	err := h.fetchFile(ctx, receivedFrom, fmsg)
+	if err != nil {
+		resp.Status = proto.StatusFetchFileError
+	}
+
+	msgResp := proto.Message{
+		Type:  proto.MsgFetchFileResponse,
+		Nonce: msg.Nonce,
+		Data:  resp,
+	}
+	err = h.publisher.PublishMessage(ctx, proto.V1Topic(receivedFrom.String()), &msgResp)
+	if err != nil {
+		log.Errorf("failed to publish:%v", err.Error())
+		return err
+	}
+	return nil
+}
+
+func (h *V1Handler) fetchFile(ctx context.Context, receivedFrom peer.ID, fmsg proto.FetchFile) error {
 	cidPath := path.New("/ipfs/" + fmsg.Cid.String())
 
 	fileNode, err := h.api.Unixfs().Get(ctx, cidPath)
@@ -53,18 +76,6 @@ func (h *V1Handler) HandleFetchFile(ctx context.Context, receivedFrom peer.ID, m
 	err = h.api.Pin().Add(ctx, cidPath)
 	if err != nil {
 		log.Errorf("failed to add pin:%v", err.Error())
-		return err
-	}
-	resp := proto.FetchFileResp{
-		Cid: fmsg.Cid,
-	}
-	msgResp := proto.Message{
-		Type: proto.MsgFetchFileResponse,
-		Data: resp,
-	}
-	err = h.publisher.PublishMessage(ctx, proto.V1Topic(receivedFrom.String()), &msgResp)
-	if err != nil {
-		log.Errorf("failed to publish:%v", err.Error())
 		return err
 	}
 	return nil
