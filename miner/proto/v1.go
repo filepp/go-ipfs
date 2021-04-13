@@ -23,7 +23,7 @@ const (
 type (
 	Message struct {
 		Type  string
-		Nonce uint64
+		Nonce string
 		Data  interface{}
 	}
 	FetchFile struct {

@@ -52,7 +52,7 @@ func (m *Miner) Subscribe() error {
 		log.Errorf("failed to subscribe: %v", err)
 		return err
 	}
-	log.Infof("subscribe: %v", m.node.Identity.String())
+	log.Infof("subscribe: %v", proto.V1Topic(m.node.Identity.String()))
 
 	go func() {
 		for {
@@ -96,6 +96,7 @@ func (m *Miner) PublishMessage(ctx context.Context, topic string, msg *proto.Mes
 		return err
 	}
 	defer receiverTopic.Close()
+
 	err = receiverTopic.Publish(ctx, data)
 	if err != nil {
 		log.Errorf("failed publish message: %v", err)
