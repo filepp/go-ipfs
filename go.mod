@@ -4,9 +4,7 @@ require (
 	bazil.org/fuse v0.0.0-20200117225306-7b5117fecadc
 	contrib.go.opencensus.io/exporter/prometheus v0.2.0
 	github.com/GeertJohan/go.rice v1.0.2
-	github.com/blang/semver v3.5.1+incompatible
 	github.com/blang/semver/v4 v4.0.0
-	github.com/bren2010/proquint v0.0.0-20160323162903-38337c27106d
 	github.com/cheggaaa/pb v1.0.29
 	github.com/coreos/go-systemd/v22 v22.3.1
 	github.com/dustin/go-humanize v1.0.0
@@ -52,7 +50,7 @@ require (
 	github.com/ipfs/go-metrics-interface v0.0.1
 	github.com/ipfs/go-metrics-prometheus v0.0.2
 	github.com/ipfs/go-mfs v0.1.2
-	github.com/ipfs/go-namesys v0.1.0
+	github.com/ipfs/go-namesys v0.1.1
 	github.com/ipfs/go-path v0.0.9
 	github.com/ipfs/go-pinning-service-http-client v0.1.0
 	github.com/ipfs/go-unixfs v0.2.4
