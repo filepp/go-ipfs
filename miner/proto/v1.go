@@ -13,6 +13,8 @@ const (
 
 	MsgWindowPost         = "WindowPost"
 	MsgWindowPostResponse = "WindowPostResp"
+
+	MsgMinerHeartBeat = "MinerHeartBeat"
 )
 
 const (
@@ -48,6 +50,10 @@ type (
 	}
 	WindowPostResp struct {
 		Items []WindowPostRespItem
+	}
+
+	MinerHartBeat struct {
+		WalletAddress string
 	}
 )
 
@@ -87,4 +93,8 @@ func V1InternalTopic(id string) string {
 
 func V1ExternalTopic(id string) string {
 	return V1 + "/external/" + id
+}
+
+func V1MinerHeartBeatTopic() string {
+	return V1 + "/miner/heartbeat"
 }

@@ -13,9 +13,10 @@ import (
 
 var log = logging.Logger("miner")
 
-func Run(ctx context.Context, node *core.IpfsNode) {
+func Run(ctx context.Context, node *core.IpfsNode, walletAddress string) {
 	miner := &Miner{
-		node: node,
+		node:          node,
+		walletAddress: walletAddress,
 	}
 	api, err := coreapi.NewCoreAPI(node, options.Api.FetchBlocks(true))
 	if err != nil {
@@ -28,21 +29,28 @@ func Run(ctx context.Context, node *core.IpfsNode) {
 }
 
 type Miner struct {
-	node    *core.IpfsNode
-	handler MessageHandler
+	node          *core.IpfsNode
+	walletAddress string
+	handler       MessageHandler
 }
 
 func (m *Miner) Run(ctx context.Context) {
-	m.Subscribe()
+	m.subscribe()
+	m.heartbeat(ctx)
+
+	ticker := time.NewTicker(time.Minute * 10)
+	defer ticker.Stop()
 	for {
 		select {
 		case <-ctx.Done():
 			return
+		case <-ticker.C:
+			m.heartbeat(ctx)
 		}
 	}
 }
 
-func (m *Miner) Subscribe() error {
+func (m *Miner) subscribe() error {
 	topic, err := m.node.PubSub.Join(proto.V1InternalTopic(m.node.Identity.String()))
 	if err != nil {
 		log.Errorf("failed to create sub topic: %v", err)
@@ -101,6 +109,21 @@ func (m *Miner) PublishMessage(ctx context.Context, topic string, msg *proto.Mes
 	err = receiverTopic.Publish(ctx, data)
 	if err != nil {
 		log.Errorf("failed publish message: %v", err)
+	}
+	return nil
+}
+
+func (m *Miner) heartbeat(ctx context.Context) error {
+	msgResp := proto.Message{
+		Type: proto.MsgMinerHeartBeat,
+		Data: proto.MinerHartBeat{
+			WalletAddress: m.walletAddress,
+		},
+	}
+	err := m.PublishMessage(ctx, proto.V1MinerHeartBeatTopic(), &msgResp)
+	if err != nil {
+		log.Errorf("failed to publish:%v", err.Error())
+		return err
 	}
 	return nil
 }

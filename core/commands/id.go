@@ -60,7 +60,6 @@ If no peer is specified, prints out information for local peers.
 <pver>: Protocol version.
 <pubkey>: Public key.
 <addrs>: Addresses (newline delimited).
-<wallet-address>: Miner wallet address.
 EXAMPLE:
 
     ipfs id Qmece2RkXhsKe5CRooNisBTh4SK119KrXXGmoK6V3kb8aH -f="<addrs>\n"
@@ -135,7 +134,6 @@ EXAMPLE:
 				output = strings.Replace(output, "<pubkey>", out.PublicKey, -1)
 				output = strings.Replace(output, "<addrs>", strings.Join(out.Addresses, "\n"), -1)
 				output = strings.Replace(output, "<protocols>", strings.Join(out.Protocols, "\n"), -1)
-				output = strings.Replace(output, "<wallet-address>", out.WalletAddress, -1)
 				output = strings.Replace(output, "\\n", "\n", -1)
 				output = strings.Replace(output, "\\t", "\t", -1)
 				fmt.Fprint(w, output)
@@ -197,12 +195,6 @@ func printPeer(keyEnc ke.KeyEncoder, ps pstore.Peerstore, p peer.ID) (interface{
 		}
 	}
 
-	if v, err := ps.Get(p, "WalletAddress"); err == nil {
-		if vs, ok := v.(string); ok {
-			info.WalletAddress = vs
-		}
-	}
-
 	return info, nil
 }
 
@@ -232,12 +224,6 @@ func printSelf(keyEnc ke.KeyEncoder, node *core.IpfsNode) (interface{}, error) {
 	}
 	info.ProtocolVersion = identify.LibP2PVersion
 	info.AgentVersion = version.UserAgent
-
-	if v, err := node.Peerstore.Get(node.Identity, "WalletAddress"); err == nil {
-		if vs, ok := v.(string); ok {
-			info.WalletAddress = vs
-		}
-	}
 
 	return info, nil
 }

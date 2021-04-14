@@ -463,10 +463,10 @@ func daemonFunc(req *cmds.Request, re cmds.ResponseEmitter, env cmds.Environment
 	enableMining, _ := req.Options[enableMining].(bool)
 	if enableMining {
 		walletAddress, found := req.Options[walletAddress].(string)
-		if found {
-			node.Peerstore.Put(node.Identity, "WalletAddress", walletAddress)
+		if !found {
+			return errors.New("wallet address must be set")
 		}
-		miner.Run(req.Context, node)
+		miner.Run(req.Context, node, walletAddress)
 	}
 
 	// collect long-running errors and block for shutdown
