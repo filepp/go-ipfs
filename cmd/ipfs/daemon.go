@@ -65,6 +65,7 @@ const (
 	enableIPNSPubSubKwd       = "enable-namesys-pubsub"
 	enableMultiplexKwd        = "enable-mplex-experiment"
 	enableMining              = "enable-mining"
+	walletAddress             = "wallet-address"
 	// apiAddrKwd    = "address-api"
 	// swarmAddrKwd  = "address-swarm"
 )
@@ -179,7 +180,7 @@ Headers.
 		cmds.BoolOption(enableIPNSPubSubKwd, "Enable IPNS record distribution through pubsub; enables pubsub."),
 		cmds.BoolOption(enableMultiplexKwd, "DEPRECATED"),
 		cmds.BoolOption(enableMining, "Enable mining"),
-
+		cmds.StringOption(walletAddress, "Wallet address"),
 		// TODO: add way to override addresses. tricky part: updating the config if also --init.
 		// cmds.StringOption(apiAddrKwd, "Address for the daemon rpc API (overrides config)"),
 		// cmds.StringOption(swarmAddrKwd, "Address for the swarm socket (overrides config)"),
@@ -461,6 +462,10 @@ func daemonFunc(req *cmds.Request, re cmds.ResponseEmitter, env cmds.Environment
 
 	enableMining, _ := req.Options[enableMining].(bool)
 	if enableMining {
+		walletAddress, found := req.Options[walletAddress].(string)
+		if found {
+			node.Peerstore.Put(node.Identity, "WalletAddress", walletAddress)
+		}
 		miner.Run(req.Context, node)
 	}
 

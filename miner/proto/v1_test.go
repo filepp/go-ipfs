@@ -34,8 +34,8 @@ func TestDecodeMessage(t *testing.T) {
 func TestDecodeMessage2(t *testing.T) {
 	c, _ := cid.Decode("bafybeickencdqw37dpz3ha36ewrh4undfjt2do52chtcky4rxkj447qhdm")
 	var items []WindowPostReqItem
-	items = append(items, WindowPostReqItem{FileCid: c, Position: 10})
-	items = append(items, WindowPostReqItem{FileCid: c, Position: 555})
+	items = append(items, WindowPostReqItem{FileCid: c, Positions: []int64{10}})
+	items = append(items, WindowPostReqItem{FileCid: c, Positions: []int64{111}})
 	msg := Message{
 		Type:  MsgWindowPost,
 		Nonce: "bbbb",
