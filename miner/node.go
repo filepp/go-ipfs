@@ -13,10 +13,11 @@ import (
 
 var log = logging.Logger("miner")
 
-func Run(ctx context.Context, node *core.IpfsNode, walletAddress string) {
+func Run(ctx context.Context, node *core.IpfsNode, walletAddress string, role int) {
 	miner := &Miner{
 		node:          node,
 		walletAddress: walletAddress,
+		role:          role,
 	}
 	api, err := coreapi.NewCoreAPI(node, options.Api.FetchBlocks(true))
 	if err != nil {
@@ -31,6 +32,7 @@ func Run(ctx context.Context, node *core.IpfsNode, walletAddress string) {
 type Miner struct {
 	node          *core.IpfsNode
 	walletAddress string
+	role          int
 	handler       MessageHandler
 }
 
@@ -118,6 +120,7 @@ func (m *Miner) heartbeat(ctx context.Context) error {
 		Type: proto.MsgMinerHeartBeat,
 		Data: proto.MinerHartBeat{
 			WalletAddress: m.walletAddress,
+			Role:          m.role,
 		},
 	}
 	err := m.PublishMessage(ctx, proto.V1MinerHeartBeatTopic(), &msgResp)

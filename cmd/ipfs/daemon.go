@@ -66,6 +66,7 @@ const (
 	enableMultiplexKwd        = "enable-mplex-experiment"
 	enableMining              = "enable-mining"
 	walletAddress             = "wallet-address"
+	minerRole                 = "miner-role"
 	// apiAddrKwd    = "address-api"
 	// swarmAddrKwd  = "address-swarm"
 )
@@ -181,6 +182,7 @@ Headers.
 		cmds.BoolOption(enableMultiplexKwd, "DEPRECATED"),
 		cmds.BoolOption(enableMining, "Enable mining"),
 		cmds.StringOption(walletAddress, "Wallet address"),
+		cmds.IntOption(minerRole, "miner role, 0: main miner 1: edge miner"),
 		// TODO: add way to override addresses. tricky part: updating the config if also --init.
 		// cmds.StringOption(apiAddrKwd, "Address for the daemon rpc API (overrides config)"),
 		// cmds.StringOption(swarmAddrKwd, "Address for the swarm socket (overrides config)"),
@@ -466,7 +468,14 @@ func daemonFunc(req *cmds.Request, re cmds.ResponseEmitter, env cmds.Environment
 		if !found {
 			return errors.New("wallet address must be set")
 		}
-		miner.Run(req.Context, node, walletAddress)
+		role, found := req.Options[minerRole].(int)
+		if !found {
+			return errors.New("miner-role must be set")
+		}
+		if role != 0 && role != 1 {
+			return errors.New("miner-role must be 0 or 1")
+		}
+		miner.Run(req.Context, node, walletAddress, role)
 	}
 
 	// collect long-running errors and block for shutdown
