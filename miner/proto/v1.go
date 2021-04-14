@@ -63,6 +63,7 @@ func init() {
 	gob.Register(FetchFileResp{})
 	gob.Register(WindowPostReq{})
 	gob.Register(WindowPostResp{})
+	gob.Register(MinerHartBeat{})
 }
 
 func (m Message) EncodeMessage() ([]byte, error) {
