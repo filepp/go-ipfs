@@ -81,6 +81,10 @@ func DecodeMessage(data []byte) (Message, error) {
 	return v, nil
 }
 
-func V1Topic(id string) string {
-	return V1 + "/" + id
+func V1InternalTopic(id string) string {
+	return V1 + "/internal/" + id
+}
+
+func V1ExternalTopic(id string) string {
+	return V1 + "/external/" + id
 }

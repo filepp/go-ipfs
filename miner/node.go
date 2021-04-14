@@ -43,7 +43,7 @@ func (m *Miner) Run(ctx context.Context) {
 }
 
 func (m *Miner) Subscribe() error {
-	topic, err := m.node.PubSub.Join(proto.V1Topic(m.node.Identity.String()))
+	topic, err := m.node.PubSub.Join(proto.V1InternalTopic(m.node.Identity.String()))
 	if err != nil {
 		log.Errorf("failed to create sub topic: %v", err)
 		return err
@@ -53,7 +53,7 @@ func (m *Miner) Subscribe() error {
 		log.Errorf("failed to subscribe: %v", err)
 		return err
 	}
-	log.Infof("subscribe: %v", proto.V1Topic(m.node.Identity.String()))
+	log.Infof("subscribe: %v", proto.V1InternalTopic(m.node.Identity.String()))
 
 	go func() {
 		for {
