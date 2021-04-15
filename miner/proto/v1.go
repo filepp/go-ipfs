@@ -2,6 +2,7 @@ package proto
 
 import (
 	"bytes"
+	"encoding/base64"
 	"encoding/gob"
 	"github.com/ipfs/go-cid"
 )
@@ -74,13 +75,17 @@ func (m Message) EncodeMessage() ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	return buffer.Bytes(), nil
+	return []byte(base64.RawStdEncoding.EncodeToString(buffer.Bytes())), nil
 }
 
 func DecodeMessage(data []byte) (Message, error) {
-	dec := gob.NewDecoder(bytes.NewReader(data))
+	rawData, err := base64.RawStdEncoding.DecodeString(string(data))
+	if err != nil {
+		return Message{}, err
+	}
+	dec := gob.NewDecoder(bytes.NewReader(rawData))
 	var v Message
-	err := dec.Decode(&v)
+	err = dec.Decode(&v)
 	if err != nil {
 		return Message{}, err
 	}
