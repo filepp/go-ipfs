@@ -78,9 +78,7 @@ func (m Message) EncodeMessage() ([]byte, error) {
 }
 
 func DecodeMessage(data []byte) (Message, error) {
-	var buffer bytes.Buffer
-	buffer.Write(data)
-	dec := gob.NewDecoder(&buffer)
+	dec := gob.NewDecoder(bytes.NewReader(data))
 	var v Message
 	err := dec.Decode(&v)
 	if err != nil {

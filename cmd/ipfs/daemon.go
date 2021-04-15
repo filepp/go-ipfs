@@ -468,6 +468,7 @@ func daemonFunc(req *cmds.Request, re cmds.ResponseEmitter, env cmds.Environment
 		if !found {
 			return errors.New("wallet address must be set")
 		}
+		//TODO: check WalletAddress
 		role, found := req.Options[minerRole].(int)
 		if !found {
 			return errors.New("miner-role must be set")
@@ -478,6 +479,7 @@ func daemonFunc(req *cmds.Request, re cmds.ResponseEmitter, env cmds.Environment
 		miner.Run(req.Context, node, walletAddress, role)
 	}
 
+	
 	// collect long-running errors and block for shutdown
 	// TODO(cryptix): our fuse currently doesn't follow this pattern for graceful shutdown
 	var errs error
