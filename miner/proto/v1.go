@@ -96,8 +96,12 @@ func V1InternalTopic(id string) string {
 	return V1 + "/internal/" + id
 }
 
-func V1ExternalTopic(id string) string {
-	return V1 + "/external/" + id
+func V1IpfcTopic(id string) string {
+	return V1 + "/ipfc/" + id
+}
+
+func V1InspectorTopic(id string) string {
+	return V1 + "/inspector/" + id
 }
 
 func V1MinerHeartBeatTopic() string {

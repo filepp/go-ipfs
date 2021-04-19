@@ -54,7 +54,7 @@ func (h *V1Handler) FetchFile(ctx context.Context, receivedFrom peer.ID, msg *pr
 		Nonce: msg.Nonce,
 		Data:  resp,
 	}
-	err = h.publisher.PublishMessage(ctx, proto.V1ExternalTopic(receivedFrom.String()), &msgResp)
+	err = h.publisher.PublishMessage(ctx, proto.V1IpfcTopic(receivedFrom.String()), &msgResp)
 	if err != nil {
 		log.Errorf("failed to publish:%v", err.Error())
 		return err
@@ -94,7 +94,7 @@ func (h *V1Handler) WindowPost(ctx context.Context, receivedFrom peer.ID, msg *p
 		Nonce: msg.Nonce,
 		Data:  resp,
 	}
-	err := h.publisher.PublishMessage(ctx, proto.V1ExternalTopic(receivedFrom.String()), &msgResp)
+	err := h.publisher.PublishMessage(ctx, proto.V1InspectorTopic(receivedFrom.String()), &msgResp)
 	if err != nil {
 		log.Errorf("failed to publish:%v", err.Error())
 		return err
