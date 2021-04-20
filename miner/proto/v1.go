@@ -54,8 +54,7 @@ type (
 	}
 
 	MinerHartBeat struct {
-		WalletAddress string
-		Role          int
+		Role int
 	}
 )
 
